@@ -1,0 +1,47 @@
+
+*.iml
+# Android
+*.apk
+*.ap_
+*.dex
+*.obb
+*.so
+*.aar
+
+# Gradle
+.gradle/
+/build/
+
+# IntelliJ IDEA / Android Studio
+.idea
+
+# ProGuard files
+proguard/
+proguard-*.txt
+
+# Android Studio generated files
+captures/
+.externalNativeBuild/
+cxx/
+androidTest
+# Crashlytics and Fabric configuration files
+crashlytics.properties
+fabric.properties
+
+# Keystore files
+*.jks
+
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
