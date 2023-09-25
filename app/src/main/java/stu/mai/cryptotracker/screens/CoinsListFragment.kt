@@ -1,7 +1,7 @@
 package stu.mai.cryptotracker.screens
 
-import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,13 +30,14 @@ class CoinsListFragment: Fragment(), Navigator {
 
         with(viewModel) {
             getCoinPriceList().observe(viewLifecycleOwner) {
-                TODO()
+                Log.d("CoinsListFragment", "onCreateView: $it")
             }
         }
 
         binding = FragmentPricelistBinding.inflate(inflater, container, false)
         with(binding) {
-
+            textView.text = "CoinsListFragment" //TODO remove
+            textView.setOnClickListener { launchNext() }
             return root
         }
     }

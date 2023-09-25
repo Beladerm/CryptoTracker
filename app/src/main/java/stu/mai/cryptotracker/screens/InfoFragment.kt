@@ -1,6 +1,7 @@
 package stu.mai.cryptotracker.screens
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,13 +28,13 @@ class InfoFragment: Fragment(),Navigator {
 
         with(viewModel) {
             getCoinPriceList().observe(viewLifecycleOwner) {
-                TODO()
+                Log.d("CoinsListFragment", "onCreateView: $it")
             }
         }
 
         binding = FragmentCoinInfoBinding.inflate(inflater, container, false)
         with(binding) {
-
+            textView2.text = "InfoFragment" //TODO remove
             return root
         }
     }

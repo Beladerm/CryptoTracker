@@ -7,5 +7,5 @@ object DataBase {
     fun init(application: Application) {
         this.application = application
     }
-    val db by lazy {  AppDatabase.getInstance(application)}
+    val db by lazy { AppDatabase.getInstance(application) }
 }
