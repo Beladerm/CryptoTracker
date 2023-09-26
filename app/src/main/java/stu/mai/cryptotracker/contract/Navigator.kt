@@ -3,7 +3,7 @@ package stu.mai.cryptotracker.contract
 import androidx.fragment.app.Fragment
 
 interface Navigator {
-    fun launchNext()
+    fun launchNext(fsym:String)
 }
 
 fun Fragment.navigator(): Navigator {

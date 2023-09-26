@@ -8,4 +8,6 @@ object DataBase {
         this.application = application
     }
     val db by lazy { AppDatabase.getInstance(application) }
+    // TODO исправить by lazy, без него краш, так как application = null
+
 }

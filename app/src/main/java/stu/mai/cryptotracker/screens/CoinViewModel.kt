@@ -30,7 +30,7 @@ class CoinViewModel : ViewModel() {
                 ?.joinToString(",") ?: "Error CoinViewModel" }
             .flatMap { ApiFactory.apiService.getFullPriceList(fSyms = it) }
             .map { getPriceListFromRawData(it) }
-            .delaySubscription(1, TimeUnit.MINUTES)
+            .delaySubscription(10, TimeUnit.SECONDS)
             .repeat()
             .retry()
             .subscribeOn(Schedulers.io())

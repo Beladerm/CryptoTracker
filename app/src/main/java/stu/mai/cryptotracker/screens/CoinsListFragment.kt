@@ -1,15 +1,17 @@
 package stu.mai.cryptotracker.screens
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import stu.mai.cryptotracker.R
+import stu.mai.cryptotracker.adapters.CoinInfoAdapter
 import stu.mai.cryptotracker.contract.Navigator
 import stu.mai.cryptotracker.databinding.FragmentPricelistBinding
+import stu.mai.cryptotracker.pojo.CoinPriceInfo
+
 
 class CoinsListFragment: Fragment(), Navigator {
 
@@ -20,6 +22,7 @@ class CoinsListFragment: Fragment(), Navigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
+
     }
 
     override fun onCreateView(
@@ -27,31 +30,40 @@ class CoinsListFragment: Fragment(), Navigator {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentPricelistBinding.inflate(inflater, container, false)
+        val adapter = CoinInfoAdapter(requireContext())
+        binding.rvCoinPriceList.adapter = adapter
+        adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
+            override fun onCoinClick(coinPriceInfo: CoinPriceInfo) {
+                launchNext(coinPriceInfo.fromSymbol)
+            }
 
+        }
         with(viewModel) {
             getCoinPriceList().observe(viewLifecycleOwner) {
-                Log.d("CoinsListFragment", "onCreateView: $it")
+                adapter.coinInfoList = it
             }
         }
 
-        binding = FragmentPricelistBinding.inflate(inflater, container, false)
-        with(binding) {
-            textView.text = "CoinsListFragment" //TODO remove
-            textView.setOnClickListener { launchNext() }
-            return root
-        }
+        return binding.root
     }
-    override fun launchNext() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+    override fun launchNext(fsym: String) {
         val fragmentManager = requireActivity().supportFragmentManager
         fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, createInfoFragment())
+            .replace(R.id.fragment_container, createInfoFragment(fsym))
             .addToBackStack(null)
             .commit()
+
     }
 
 
-    private fun createInfoFragment(): Fragment {
-        return InfoFragment.newInstance()
+    private fun createInfoFragment(coinSymbol:String): Fragment {
+        return InfoFragment.newInstance(coinSymbol)
     }
     companion object {
         @JvmStatic
