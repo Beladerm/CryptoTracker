@@ -33,7 +33,7 @@ class InfoFragment: Fragment(),Navigator {
     ): View {
         binding = FragmentCoinInfoBinding.inflate(inflater, container, false)
         with(viewModel) {
-            coinSymbol?.let {
+            coinSymbol?.let { it ->
                 getDetailInfo(it).observe(viewLifecycleOwner) {
                     Log.d("CoinsListFragment", "onCreateView: $it")
                     with(binding) {

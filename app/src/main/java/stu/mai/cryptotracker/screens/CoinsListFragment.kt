@@ -48,10 +48,6 @@ class CoinsListFragment: Fragment(), Navigator {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
     override fun launchNext(fsym: String) {
         val fragmentManager = requireActivity().supportFragmentManager
         fragmentManager.beginTransaction()

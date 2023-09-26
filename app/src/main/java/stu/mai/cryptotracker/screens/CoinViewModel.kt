@@ -26,7 +26,8 @@ class CoinViewModel : ViewModel() {
 
     private fun loadData() {
         val disposable = ApiFactory.apiService.getTopCoinsInfo(limit = 30)
-            .map { it.data?.map { it.coinInfo?.name }
+            .map { it ->
+                it.data?.map { it.coinInfo?.name }
                 ?.joinToString(",") ?: "Error CoinViewModel" }
             .flatMap { ApiFactory.apiService.getFullPriceList(fSyms = it) }
             .map { getPriceListFromRawData(it) }
