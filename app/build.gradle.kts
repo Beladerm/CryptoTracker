@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
     kotlin("kapt")
 }
 
@@ -45,7 +46,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -60,9 +61,9 @@ dependencies {
 
     // ViewModel and LiveData
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.6.1")
+    kapt("androidx.lifecycle:lifecycle-compiler:2.6.2")
     // optional - ReactiveStreams support for LiveData
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:2.6.2")
 
     implementation("androidx.room:room-runtime:2.5.2")
     kapt("androidx.room:room-compiler:2.5.2")
@@ -70,5 +71,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.5.2")
 
     implementation("com.squareup.picasso:picasso:2.71828")
+
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
+    implementation ("androidx.cardview:cardview:1.0.0")
 
 }

@@ -1,28 +1,30 @@
 package stu.mai.cryptotracker
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import stu.mai.cryptotracker.screens.CoinViewModel
+import androidx.fragment.app.Fragment
+import stu.mai.cryptotracker.databinding.ActivityMainBinding
+import stu.mai.cryptotracker.db.DataBase
+import stu.mai.cryptotracker.screens.CoinsListFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CoinViewModel
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
-        viewModel.priceList.observe(this) {
-            Log.d("TEST SYSTEM", "Success $it")
+        DataBase.init(application)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+            .also {setContentView(it.root)}
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, createCoinListFragment())
+                .commit()
         }
-        viewModel.getDetailInfo("BTC").observe(this) {
-            Log.d("TEST SYSTEM", "Success $it")
-        }
-
-
 
     }
-
+    private fun createCoinListFragment(): Fragment {
+        return CoinsListFragment.newInstance()
+    }
 
 }

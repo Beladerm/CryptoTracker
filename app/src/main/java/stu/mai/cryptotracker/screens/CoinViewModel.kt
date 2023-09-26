@@ -1,29 +1,28 @@
 package stu.mai.cryptotracker.screens
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import stu.mai.cryptotracker.api.ApiFactory
-import stu.mai.cryptotracker.db.AppDatabase
+import stu.mai.cryptotracker.db.DataBase
 import stu.mai.cryptotracker.pojo.CoinPriceInfo
 import stu.mai.cryptotracker.pojo.CoinPriceInfoRawData
 import java.util.concurrent.TimeUnit
 
-class CoinViewModel(application: Application): AndroidViewModel(application) {
-    init { loadData() }
-
-    private val db = AppDatabase.getInstance(application)
-
+class CoinViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    val priceList = db.coinPriceInfoDao().getPriceList()
+    private val database = DataBase.db
+    init { loadData() }
+
+    fun getCoinPriceList(): LiveData<List<CoinPriceInfo>> =
+        database.coinPriceInfoDao().getPriceList()
 
     fun getDetailInfo(fSym: String): LiveData<CoinPriceInfo> =
-        db.coinPriceInfoDao().getPriceInfoAboutCoin(fSym)
+        database.coinPriceInfoDao().getPriceInfoAboutCoin(fSym)
 
     private fun loadData() {
         val disposable = ApiFactory.apiService.getTopCoinsInfo(limit = 30)
@@ -31,12 +30,12 @@ class CoinViewModel(application: Application): AndroidViewModel(application) {
                 ?.joinToString(",") ?: "Error CoinViewModel" }
             .flatMap { ApiFactory.apiService.getFullPriceList(fSyms = it) }
             .map { getPriceListFromRawData(it) }
-            .delaySubscription(1, TimeUnit.MINUTES)
+            .delaySubscription(10, TimeUnit.SECONDS)
             .repeat()
             .retry()
             .subscribeOn(Schedulers.io())
             .subscribe({
-                db.coinPriceInfoDao().insertPriceList(it)
+                database.coinPriceInfoDao().insertPriceList(it)
             }, {
                 Log.e("TEST SYSTEM", it.message.toString())
             })
